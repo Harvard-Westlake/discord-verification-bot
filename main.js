@@ -4,7 +4,8 @@ const sqlite = require('sqlite');
 const sqlite3 = require('sqlite3');
 const config = require('./config');
 
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ["MESSAGE","CHANNEL","REACTION"]});
+
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // generates a n-digit random code
@@ -406,7 +407,9 @@ client.on('message', async msg => {
   }
 
   // lookup a user
-  else if (member.hasPermission('ADMINISTRATOR') && cmd[0] === '!lookup') {
+  else if (!member) {
+    msg.reply(config.discord.verified_role_name + " test" );
+  } else if (member.hasPermission('ADMINISTRATOR') && cmd[0] === '!lookup') {
     if (cmd.length < 2 || !cmd[1].match('.+#([0-9]){4}')) {
       msg.reply('Invalid command. Format: `!lookup <username>#<discriminator>`');
       return;
