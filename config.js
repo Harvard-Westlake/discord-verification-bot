@@ -1,12 +1,12 @@
 module.exports = {
   db_path: './users.db',
-  allowed_domains: ['ucla.edu'],
+  allowed_domains: ['hw.com','hwemail.com'],
   discord: {
-    server_id: '754931521315536937',
-    verified_role_name: 'Verified',
+    server_id: '892540368728490014',
+    verified_role_name: 'Wolverine',
   },
   sendgrid: {
-    template_id: 'd-f2190ba3825945a79e24cf06b2fd984c',
-    sender: 'rnema@ucla.edu',
+    template_id: 'd-bb519dfa570c484fb1b96b9e1e570ce4',
+    sender: 'admin@codehw.net',
   },
 };
