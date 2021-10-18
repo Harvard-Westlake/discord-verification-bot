@@ -135,9 +135,7 @@ WHERE
   }
 
   member.roles.add(role);
-  if (row.nickname) {
-    member.setNickname(row.nickname);
-  }
+  member.setNickname(row.nickname);
 
   try {
   await db.run(`DELETE FROM usercodes WHERE userid = ?`, [author.id]);
