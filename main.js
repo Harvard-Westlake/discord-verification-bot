@@ -135,7 +135,9 @@ WHERE
   }
 
   member.roles.add(role);
-  member.setNickname(row.nickname);
+  if (row.nickname) {
+    member.setNickname(row.nickname);
+  }
 
   try {
   await db.run(`DELETE FROM usercodes WHERE userid = ?`, [author.id]);
@@ -151,7 +153,7 @@ VALUES
     nickname = ?`,
       [author.id, author.username, author.discriminator, row.nickname, row.email, row.email, row.nickname]);
   } catch (e) {
-    console.error(e.toString());
+    console.log(e.toString());
     await db.close();
     return [
       {message: e.toString()},
