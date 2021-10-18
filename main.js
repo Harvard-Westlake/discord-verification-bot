@@ -23,7 +23,7 @@ async function verifyAndSendEmail(userid, email, nickname) {
   if (!(domain && config.allowed_domains.includes(domain[1]))) {
     return [
       null,
-      'Please enter a valid UCLA email address.'
+      'Please enter a valid Harvard-Westlake email address.'
     ];
   }
 
@@ -97,7 +97,7 @@ VALUES
 }
 
 // verify code and role to access server
-async function verifyAndAddRole(code, role_name, author) {
+async function verifyAndAddRole(message, code, role_name, author) {
   let db = await sqlite.open({
     filename: config.db_path,
     driver: sqlite3.Database
@@ -105,13 +105,15 @@ async function verifyAndAddRole(code, role_name, author) {
 
   let server = client.guilds.cache.get(config.discord.server_id);
   let role = server.roles.cache.find(role => role.name === role_name);
-  let member = server.members.cache.get(author.id);
+  let member = await server.members.fetch(author);
 
-  if (member.roles.cache.find(role => role.name === role_name)) {
-    return [
-      null,
-      'You\'re already verified!'
-    ]
+  if (member) {
+    if (member.roles.cache.find(role => role.name === role_name)) {
+      return [
+        null,
+        'You\'re already verified!'
+      ]
+    }
   }
 
   let row = await db.get(`
@@ -330,8 +332,8 @@ client.on('ready', async () => {
 // on new user, dm him with info and verification instructions
 client.on('guildMemberAdd', member => {
    member.send(`
-Welcome to ACM at UCLA's Discord Server!
-To access the server please verify yourself using your UCLA email address. Don't worry, this email address will not be linked to your Discord account in any way and is only for moderation purposes.
+Welcome to Harvard-Westlakes's Discord Server!
+To access the server please verify yourself using your HW email address. Don't worry, this email is used for moderation purposes.
 You can verify your email and set your nickname by replying with \`!iam <ucla_email_address> <preferred_nickname>\`.
 You will be emailed a 6-digit verification code and you can let me know by \`!verify <code>\`.
 
@@ -341,7 +343,7 @@ Available commands:
 \`!iam <ucla_email_address> <preferred_nickname>\`: request a 6-digit verification code to verify your email address and set your nickname on the server.
 \`!verify <code>\`: verify the code that has been emailed to you.
 \`!whoami\`: check your verified email address.
-\`!nickname\`: change your nickname on the UCLA server.`);
+\`!nickname\`: change your nickname on the Harvard-Westlake server.`);
 });
 
 // on new message
@@ -370,7 +372,7 @@ client.on('message', async msg => {
   // verify code
   else if (cmd.length >= 2 && cmd[0] === '!verify') {
     let code = cmd[1];
-    let [err, message] = await verifyAndAddRole(code, config.discord.verified_role_name, msg.author);
+    let [err, message] = await verifyAndAddRole(msg, code, config.discord.verified_role_name, msg.author);
     if (err) {
       msg.reply('Something went wrong!\n`'+err.message+'`');
       return;
@@ -432,7 +434,7 @@ Available commands:
 \`!iam <ucla_email_address> <preferred_nickname>\`: request a 6-digit verification code to verify your email address and set your nickname on the server.
 \`!verify <code>\`: verify the code that has been emailed to you.
 \`!whoami\`: check your verified email address.
-\`!nickname\`: change your nickname on the UCLA server.`);
+\`!nickname\`: change your nickname on the Havard-Westlake server.`);
   }
 });
 
