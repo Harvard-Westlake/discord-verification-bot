@@ -17,7 +17,7 @@ function genCode(n) {
 }
 
 // if email has not been verified, send verification code
-async function verifyAndSendEmail(userid, email, nickname) {
+async function verifyAndSendEmail(message, userid, email, nickname) {
   let domain = email.match('^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?('+config.allowed_domains.join('|')+')$');
 
   if (!(domain && config.allowed_domains.includes(domain[1]))) {
@@ -360,7 +360,7 @@ client.on('message', async msg => {
   if (cmd.length >= 3 && cmd[0] === '!iam') {
     let email = cmd[1].toLowerCase();
     let nickname = cmd.slice(2,cmd.length).join(' ');
-    let [err, message] = await verifyAndSendEmail(msg.author.id, email, nickname);
+    let [err, message] = await verifyAndSendEmail(msg, msg.author.id, email, nickname);
     if (err) {
       msg.reply('Something went wrong!\n`'+err.message+'`');
     }
