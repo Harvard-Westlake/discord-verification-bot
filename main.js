@@ -34,7 +34,7 @@ async function verifyAndSendEmail(message, userid, email, nickname) {
 
   let emailExists = null;
   try {
-    // TODO: treat .*.ucla.edu the same as ucla.edu for existence check
+    // TODO: treat .*.hwemail.edu the same as harvard-westlake.edu for existence check
     emailExists = await db.get(`SELECT * FROM users WHERE email = ?`, [email]);
   } catch (e) {
     console.error(e.toString());
@@ -196,7 +196,7 @@ WHERE
       null,
       `
 Hmmm I'm really not sure myself but I'd love to get to know you!
-Use \`!iam <ucla_email_address> <preferred_nickname>\` and verify your email address.`
+Use \`!iam <harvard-westlake_email_address> <preferred_nickname>\` and verify your email address.`
     ]
   }
 
@@ -239,7 +239,7 @@ WHERE
       null,
       `
 Sorry, I don't think you're verified!
-Use \`!iam <ucla_email_address> <preferred_nickname>\` and verify your email address.`
+Use \`!iam <harvard-westlake_email_address> <preferred_nickname>\` and verify your email address.`
     ]
   }
 
@@ -334,13 +334,13 @@ client.on('guildMemberAdd', member => {
    member.send(`
 Welcome to Harvard-Westlakes's Discord Server!
 To access the server please verify yourself using your HW email address. Don't worry, this email is used for moderation purposes.
-You can verify your email and set your nickname by replying with \`!iam <ucla_email_address> <preferred_nickname>\`.
+You can verify your email and set your nickname by replying with \`!iam <harvard-westlake_email_address> <preferred_nickname>\`.
 You will be emailed a 6-digit verification code and you can let me know by \`!verify <code>\`.
 
 Hope to see you soon!
 
 Available commands:
-\`!iam <ucla_email_address> <preferred_nickname>\`: request a 6-digit verification code to verify your email address and set your nickname on the server.
+\`!iam <harvard-westlake_email_address> <preferred_nickname>\`: request a 6-digit verification code to verify your email address and set your nickname on the server.
 \`!verify <code>\`: verify the code that has been emailed to you.
 \`!whoami\`: check your verified email address.
 \`!nickname\`: change your nickname on the Harvard-Westlake server.`);
@@ -435,7 +435,7 @@ client.on('message', async msg => {
     msg.reply(`
 Invalid command/format.
 Available commands:
-\`!iam <ucla_email_address> <preferred_nickname>\`: request a 6-digit verification code to verify your email address and set your nickname on the server.
+\`!iam <harvard-westlake_email_address> <preferred_nickname>\`: request a 6-digit verification code to verify your email address and set your nickname on the server.
 \`!verify <code>\`: verify the code that has been emailed to you.
 \`!whoami\`: check your verified email address.
 \`!nickname\`: change your nickname on the Havard-Westlake server.`);
