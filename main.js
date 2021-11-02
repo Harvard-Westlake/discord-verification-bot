@@ -371,14 +371,18 @@ client.on('message', async msg => {
 
   // verify code
   else if (cmd.length >= 2 && cmd[0] === '!verify') {
-    let code = cmd[1];
-    let [err, message] = await verifyAndAddRole(msg, code, config.discord.verified_role_name, msg.author);
-    if (err) {
-      msg.reply('Something went wrong!\n`'+err.message+'`');
-      return;
-    }
-    if (message) {
-      msg.reply(message);
+    try {
+      let code = cmd[1];
+      let [err, message] = await verifyAndAddRole(msg, code, config.discord.verified_role_name, msg.author);
+      if (err) {
+        msg.reply('Something went wrong!\n`'+err.message+'`');
+        return;
+      }
+      if (message) {
+        msg.reply(message);
+      }
+    } catch (error) {
+      
     }
   }
 
